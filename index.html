@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amit Bakale | Embedded Software Engineer Portfolio</title>
+  <meta name="description" content="Portfolio of Amit Bakale - Embedded Software Engineer specializing in Aerospace/Avionics (Teledyne Controls ECP), Embedded Linux (Yocto), FreeRTOS, Automotive Telematics, and Multi-Agent AI.">
+  
+  <style>
+    /* ==========================================================================
+       RESET & CORE VARIABLES (Self-contained, zero external CDN dependency)
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-dark: #0a0618;
+      --bg-surface: #120c2b;
+      --bg-card: rgba(26, 17, 56, 0.7);
+      --bg-card-hover: rgba(38, 26, 80, 0.85);
+      --border-subtle: rgba(135, 108, 212, 0.22);
+      --border-glow: rgba(255, 138, 175, 0.5);
+      --text-main: #ffffff;
+      --text-muted: #cbd5e1;
+      --text-dim: #94a3b8;
+      --accent-pink: #ff8aaf;
+      --accent-pink-glow: rgba(255, 138, 175, 0.35);
+      --accent-purple: #876cd4;
+      --accent-cyan: #38bdf8;
+      --accent-cyan-glow: rgba(56, 189, 248, 0.3);
+      --accent-emerald: #10b981;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-pill: 9999px;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-stack);
+      line-height: 1.6;
+    }
+
+    body {
+      background: radial-gradient(circle at 15% 15%, rgba(135, 108, 212, 0.18) 0%, transparent 45%),
+                  radial-gradient(circle at 85% 35%, rgba(255, 138, 175, 0.15) 0%, transparent 45%),
+                  radial-gradient(circle at 50% 85%, rgba(56, 189, 248, 0.12) 0%, transparent 50%),
+                  var(--bg-dark);
+      background-attachment: fixed;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient animated grid pattern */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 36px 36px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ==========================================================================
+       HEADER & NAVIGATION
+       ========================================================================== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 6, 24, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: all 0.3s ease;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #fff;
+      box-shadow: 0 4px 14px var(--accent-pink-glow);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--accent-pink);
+      font-family: var(--font-mono);
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-pink);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff8aaf 0%, #876cd4 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 20px rgba(255, 138, 175, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 138, 175, 0.45);
+      filter: brightness(1.1);
+    }
+
+    .btn-secondary {
+      background: rgba(135, 108, 212, 0.12);
+      border-color: rgba(135, 108, 212, 0.35);
+      color: #e2e8f0;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(135, 108, 212, 0.25);
+      border-color: var(--accent-purple);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .btn-cyan {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+    }
+
+    .btn-cyan:hover {
+      background: rgba(56, 189, 248, 0.22);
+      border-color: #38bdf8;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* ==========================================================================
+       HERO SECTION
+       ========================================================================== */
+    .hero-section {
+      padding: 70px 0 50px 0;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #10b981;
+      box-shadow: 0 0 10px #10b981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .hero-title {
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 10%, #ff8aaf 60%, #876cd4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent-pink);
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+
+    .hero-bio {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .hero-contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      padding-top: 20px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .contact-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .contact-item:hover {
+      color: var(--accent-pink);
+    }
+
+    /* KPI METRICS CARDS (Right side of hero) */
+    .metrics-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 22px 20px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent-pink);
+      border-radius: 4px;
+    }
+
+    .metric-card:nth-child(2)::before { background: var(--accent-cyan); }
+    .metric-card:nth-child(3)::before { background: var(--accent-purple); }
+    .metric-card:nth-child(4)::before { background: var(--accent-emerald); }
+
+    .metric-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-glow);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    .metric-val {
+      font-size: 2.1rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--accent-pink);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .metric-card:nth-child(2) .metric-val { color: var(--accent-cyan); }
+    .metric-card:nth-child(3) .metric-val { color: #a78bfa; }
+    .metric-card:nth-child(4) .metric-val { color: #34d399; }
+
+    .metric-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .metric-desc {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       SECTION HEADINGS
+       ========================================================================== */
+    .section-wrap {
+      padding: 70px 0;
+    }
+
+    .section-head {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .section-kicker {
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--accent-pink);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+
+    .section-title {
+      font-size: 2.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .section-lead {
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    /* ==========================================================================
+       CORE PILLARS (THE 4 PILLARS FOR HR / MANAGERS)
+       ========================================================================== */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .pillar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-purple);
+      box-shadow: 0 12px 30px rgba(135, 108, 212, 0.18);
+    }
+
+    .pillar-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: rgba(135, 108, 212, 0.15);
+      border: 1px solid rgba(135, 108, 212, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-pink);
+      margin-bottom: 20px;
+    }
+
+    .pillar-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .pillar-body {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill-tag {
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(135, 108, 212, 0.12);
+      border: 1px solid rgba(135, 108, 212, 0.28);
+      color: #d8b4fe;
+    }
+
+    .pill-tag-highlight {
+      background: rgba(255, 138, 175, 0.15);
+      border-color: rgba(255, 138, 175, 0.35);
+      color: var(--accent-pink);
+      font-weight: 600;
+    }
+
+    .pill-tag-cyan {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+    }
+
+    /* ==========================================================================
+       EXPERIENCE TIMELINE
+       ========================================================================== */
+    .timeline-wrap {
+      position: relative;
+      margin-top: 30px;
+    }
+
+    .timeline-wrap::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 20px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent-pink), var(--accent-purple), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 56px;
+      margin-bottom: 44px;
+    }
+
+    .timeline-node {
+      position: absolute;
+      left: 11px;
+      top: 4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      border: 3px solid var(--accent-pink);
+      box-shadow: 0 0 10px var(--accent-pink-glow);
+    }
+
+    .timeline-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+    }
+
+    .timeline-card:hover {
+      border-color: var(--border-glow);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .exp-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 16px;
+    }
+
+    .exp-role {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .exp-company {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent-pink);
+      margin-top: 2px;
+    }
+
+    .exp-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      background: rgba(255, 138, 175, 0.12);
+      border: 1px solid rgba(255, 138, 175, 0.35);
+      color: var(--accent-pink);
+      font-weight: 600;
+    }
+
+    .exp-badge-secondary {
+      background: rgba(148, 163, 184, 0.1);
+      border-color: rgba(148, 163, 184, 0.25);
+      color: var(--text-muted);
+    }
+
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .exp-bullets li {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .exp-bullets li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: var(--accent-pink);
+      font-weight: 700;
+    }
+
+    .exp-bullets strong {
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       FEATURED PROJECTS SECTION WITH INTERACTIVE FILTER
+       ========================================================================== */
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 34px;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: 1px solid var(--border-subtle);
+      background: rgba(18, 12, 43, 0.6);
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--accent-pink);
+      color: #0a0618;
+      border-color: var(--accent-pink);
+      box-shadow: 0 4px 14px var(--accent-pink-glow);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-pink);
+      box-shadow: 0 12px 30px rgba(255, 138, 175, 0.15);
+    }
+
+    .project-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .project-category {
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .project-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+
+    .project-desc {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 18px;
+      flex-grow: 1;
+    }
+
+    .project-highlight-box {
+      background: rgba(10, 6, 24, 0.6);
+      border-left: 3px solid var(--accent-pink);
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      color: #e2e8f0;
+      margin-bottom: 18px;
+    }
+
+    /* ==========================================================================
+       TECHNICAL SKILLS ARSENAL (Categorized Grid)
+       ========================================================================== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s ease;
+    }
+
+    .skill-card:hover {
+      border-color: var(--accent-purple);
+      box-shadow: 0 8px 24px rgba(135, 108, 212, 0.15);
+    }
+
+    .skill-card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .skill-card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 138, 175, 0.12);
+      border: 1px solid rgba(255, 138, 175, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-pink);
+    }
+
+    .skill-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .skill-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .badge-chip {
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+    }
+
+    .badge-chip.docker-accent {
+      background: rgba(56, 189, 248, 0.18);
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #38bdf8;
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    }
+
+    .badge-chip.primary-accent {
+      background: rgba(255, 138, 175, 0.15);
+      border-color: rgba(255, 138, 175, 0.4);
+      color: var(--accent-pink);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       EDUCATION & CERTIFICATIONS
+       ========================================================================== */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .edu-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .edu-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: rgba(135, 108, 212, 0.15);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-pink);
+      flex-shrink: 0;
+    }
+
+    .edu-year {
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--accent-pink);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .edu-degree {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .edu-inst {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       CTA & FOOTER
+       ========================================================================== */
+    .cta-card {
+      background: linear-gradient(135deg, rgba(38, 26, 80, 0.85) 0%, rgba(18, 12, 43, 0.95) 100%);
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius-lg);
+      padding: 60px 32px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      margin-top: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-card::after {
+      content: "";
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, var(--accent-pink-glow) 0%, transparent 70%);
+      top: -100px;
+      right: -100px;
+      pointer-events: none;
+    }
+
+    .cta-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .cta-lead {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 30px auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .footer-bar {
+      margin-top: 60px;
+      padding: 30px 0;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-pink);
+    }
+
+    /* RESPONSIVE BREAKPOINTS */
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .metrics-column {
+        grid-template-columns: 1fr;
+      }
+      .hero-title {
+        font-size: 2.1rem;
+      }
+      .cta-title {
+        font-size: 1.8rem;
+      }
+      .cta-card {
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP NAVIGATION
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#" class="brand-logo">
+          <div class="brand-avatar">AB</div>
+          <div>
+            <span class="brand-title">Amit Bakale</span>
+            <span class="brand-sub">Embedded Software Engineer</span>
+          </div>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#pillars">Competencies</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="Amit_Bakale_Resume.pdf" target="_blank" download class="btn btn-primary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Resume (PDF)
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========================================================================
+         HERO SECTION
+         ======================================================================== -->
+    <section id="about" class="hero-section">
+      <div class="container">
+        <div class="hero-grid">
+          
+          <!-- Left Column: Bio & Title -->
+          <div>
+            <div class="status-badge">
+              <span class="status-dot"></span>
+              ACTIVE IN PRODUCTION • SAFETY-CRITICAL EMBEDDED
+            </div>
+
+            <h1 class="hero-title">
+              Hi, I'm <span class="gradient-text">Amit Bakale</span>
+            </h1>
+
+            <p class="hero-subtitle">
+              Aerospace Avionics (Teledyne ECP) • Dual-Bank Failover • Embedded Linux (Yocto) • Multi-Agent AI
+            </p>
+
+            <p class="hero-bio">
+              Results-driven Embedded Software Engineer with <strong>3+ years of hands-on experience</strong> engineering safety-critical software for aerospace/avionics (<strong>Teledyne Controls ECP</strong>) and automotive IoT/telematics. Specialized in Embedded C, modern C++ (C++11/14/17), FreeRTOS, RabbitMQ AMQP messaging, enterprise PKI/EAP-TLS mutual authentication, and Docker edge targets.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#projects" class="btn btn-primary">
+                Explore Projects
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </a>
+              <a href="https://www.linkedin.com/in/amit-bakale-5150b5213" target="_blank" class="btn btn-secondary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.738-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                LinkedIn
+              </a>
+              <a href="https://github.com/CALL-AMMU" target="_blank" class="btn btn-secondary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+              </a>
+            </div>
+
+            <div class="hero-contact-row">
+              <span class="contact-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                bakaleamit28@gmail.com
+              </span>
+              <span class="contact-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                +91 7259018078
+              </span>
+              <span class="contact-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                Chennai, Tamil Nadu
+              </span>
+            </div>
+          </div>
+
+          <!-- Right Column: 4 KPI Cards -->
+          <div class="metrics-column">
+            <div class="metric-card">
+              <div class="metric-val">3+</div>
+              <div class="metric-label">Years Experience</div>
+              <p class="metric-desc">Safety-critical aerospace (Teledyne ECP) & automotive telematics.</p>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-val">100%</div>
+              <div class="metric-label">OTA Recovery</div>
+              <p class="metric-desc">Dual-bank A/B partitioning with MD5 digest validation & rollback.</p>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-val">9-Phase</div>
+              <div class="metric-label">AI Engineering</div>
+              <p class="metric-desc">Autonomous multi-agent pipeline for DO-178C traceability & reviews.</p>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-val">ARINC</div>
+              <div class="metric-label">Avionics & CAN</div>
+              <p class="metric-desc">ARINC 429/717 data slicing, CAN/CAN-FD, AMQP, and EAP-TLS.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         CORE PILLARS (HR & HIRING MANAGER OVERVIEW)
+         ======================================================================== -->
+    <section id="pillars" class="section-wrap" style="background: rgba(10, 6, 24, 0.4); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">Core Competencies</span>
+          <h2 class="section-title">What I Bring to Engineering Teams</h2>
+          <p class="section-lead">Architecting safety-critical embedded systems meeting aerospace DO-178C assurance and automotive reliability standards.</p>
+        </div>
+
+        <div class="pillars-grid">
+          
+          <!-- Pillar 1 -->
+          <div class="pillar-card">
+            <div>
+              <div class="pillar-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"/></svg>
+              </div>
+              <h3 class="pillar-title">Aerospace Avionics</h3>
+              <p class="pillar-body">
+                Central configuration daemon design (<code style="color:var(--accent-pink);">config_mgr</code>) for Teledyne Controls ECP. Dual-bank flash failover, ARINC 429/717 data slicing, and DO-178C traceability.
+              </p>
+            </div>
+            <div class="tag-cloud">
+              <span class="pill-tag pill-tag-highlight">config_mgr</span>
+              <span class="pill-tag">Dual-Bank A/B</span>
+              <span class="pill-tag">ARINC 429</span>
+              <span class="pill-tag">DO-178C</span>
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="pillar-card">
+            <div>
+              <div class="pillar-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </div>
+              <h3 class="pillar-title">PKI & Edge Security</h3>
+              <p class="pillar-body">
+                Multi-trust CA architecture for Electronic Flight Bags (EFBs). Mutual EAP-TLS authentication across airline fleets, OpenSSL X.509/CRL validation, FreeRADIUS, and Docker edge deployment.
+              </p>
+            </div>
+            <div class="tag-cloud">
+              <span class="pill-tag pill-tag-cyan">Docker Deploy</span>
+              <span class="pill-tag">EAP-TLS</span>
+              <span class="pill-tag">FreeRADIUS</span>
+              <span class="pill-tag">OpenSSL</span>
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="pillar-card">
+            <div>
+              <div class="pillar-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 10.8 2 10.9 2 11v5c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+              </div>
+              <h3 class="pillar-title">Automotive Telematics</h3>
+              <p class="pillar-body">
+                Real-time MNVR baseboard firmware on STM32 & MC6630 microcontrollers. Multi-sensor CAN bus interfacing, custom dual-stage bootloader, and fail-safe OTA updates.
+              </p>
+            </div>
+            <div class="tag-cloud">
+              <span class="pill-tag">CAN Bus</span>
+              <span class="pill-tag">STM32 / ESP32</span>
+              <span class="pill-tag">FreeRTOS</span>
+              <span class="pill-tag">OTA Recovery</span>
+            </div>
+          </div>
+
+          <!-- Pillar 4 -->
+          <div class="pillar-card">
+            <div>
+              <div class="pillar-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><rect x="4" y="8" width="16" height="12" rx="2"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></svg>
+              </div>
+              <h3 class="pillar-title">Autonomous Agentic AI</h3>
+              <p class="pillar-body">
+                9-phase multi-agent autonomous engineering pipeline: automating requirements verification, DO-178C traceability matrix generation, code auditing, and modern C++ concurrency refactoring.
+              </p>
+            </div>
+            <div class="tag-cloud">
+              <span class="pill-tag pill-tag-highlight">Multi-Agent AI</span>
+              <span class="pill-tag">DO-178C Matrix</span>
+              <span class="pill-tag">Code Review</span>
+              <span class="pill-tag">C++17/20</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         PROFESSIONAL EXPERIENCE
+         ======================================================================== -->
+    <section id="experience" class="section-wrap">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">Career Track Record</span>
+          <h2 class="section-title">Professional Experience</h2>
+          <p class="section-lead">Hands-on delivery across mission-critical aerospace platforms and commercial vehicle telematics.</p>
+        </div>
+
+        <div class="timeline-wrap">
+          
+          <!-- Job 1: Natrinai Technologies -->
+          <div class="timeline-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-card">
+              <div class="exp-header">
+                <div>
+                  <h3 class="exp-role">Embedded Software Engineer</h3>
+                  <div class="exp-company">Natrinai Technologies | Chennai, Tamil Nadu</div>
+                </div>
+                <span class="exp-badge">Feb 2026 – Present</span>
+              </div>
+
+              <div style="margin-bottom: 14px;">
+                <h4 style="font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 4px;">
+                  Teledyne Controls ECP Configuration Manager & Multi-Agent AI Framework
+                </h4>
+                <p style="font-size: 0.8rem; color: var(--accent-pink); font-family: var(--font-mono);">
+                  Electronic Computing Platform (ECP) • Avionics Edge Daemon • PKI & Docker
+                </p>
+              </div>
+
+              <ul class="exp-bullets">
+                <li>
+                  <strong>Avionics Configuration Daemon:</strong> Developed and optimized the safety-critical <code style="color:var(--accent-pink);">config_mgr</code> C++ daemon for Teledyne Controls ECP, acting as the central authority governing active (<code style="color:var(--accent-cyan);">/work</code>), standby (<code style="color:var(--accent-cyan);">/stby</code>), and default partitions on flash storage.
+                </li>
+                <li>
+                  <strong>Dual-Bank Failover & Flash Integrity:</strong> Engineered dual-bank flash partition fallback mechanisms using cryptographic MD5 digest verification, ensuring automatic rollback to standby partitions and eliminating boot-looping/flash corruption risks during flight power interruptions.
+                </li>
+                <li>
+                  <strong>Decoupled AMQP Messaging & Subsystem Slicing:</strong> Implemented asynchronous RabbitMQ (AMQP 0-9-1) inter-process messaging across POSIX threads, slicing master configurations and dynamically routing payloads to avionics modules: ADIF (ARINC 429/717, discrete inputs), AIO, NIC (VLANs, routing), HAP, and Health Manager.
+                </li>
+                <li>
+                  <strong>Air-to-Ground (A2G) Synchronization:</strong> Built bidirectional cloud downlink/uplink pipelines with JSON Schema (v3.36) validation, ground ACK confirmation events, and dynamic 1-hour quiet-period debounce algorithms for gate/flight transitions.
+                </li>
+                <li>
+                  <strong>Network Authentication Function (NAF) & Docker:</strong> Designed multi-trust CA directory architectures enabling mutual EAP-TLS authentication for Electronic Flight Bags (EFBs) across multiple commercial airline operators. Integrated FreeRADIUS and orchestrated Docker containerized build-to-target deployment workflows (image tar compression, MD5 validation, remote SCP sync, and systemd daemons) on Yocto embedded hardware.
+                </li>
+                <li>
+                  <strong>Multi-Agent AI Engineering Framework:</strong> Architected an autonomous 9-phase multi-agent AI framework (Requirements, Architecture, Planning, Coding, Review, Testing, Release, Integration, Orchestration), mapping software requirements directly to verification test harnesses aligned with DO-178C assurance principles.
+                </li>
+              </ul>
+
+              <div class="tag-cloud">
+                <span class="pill-tag pill-tag-highlight">C++11/14/17</span>
+                <span class="pill-tag pill-tag-cyan">Docker (Deploy/Tar)</span>
+                <span class="pill-tag">Yocto Linux</span>
+                <span class="pill-tag">RabbitMQ</span>
+                <span class="pill-tag">EAP-TLS</span>
+                <span class="pill-tag">FreeRADIUS</span>
+                <span class="pill-tag">OpenSSL</span>
+                <span class="pill-tag">DO-178C</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Job 2: Prime Edge Info Solutions -->
+          <div class="timeline-item">
+            <div class="timeline-node" style="border-color: var(--accent-purple);"></div>
+            <div class="timeline-card">
+              <div class="exp-header">
+                <div>
+                  <h3 class="exp-role">Embedded Software Developer</h3>
+                  <div class="exp-company">Prime Edge Info Solutions Pvt. Ltd. | Chennai, Tamil Nadu</div>
+                </div>
+                <span class="exp-badge exp-badge-secondary">Aug 2024 – Jul 2025</span>
+              </div>
+
+              <div style="margin-bottom: 14px;">
+                <h4 style="font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 4px;">
+                  MNVR Real-Time Fleet Telematics Baseboard & Smart City Displays
+                </h4>
+                <p style="font-size: 0.8rem; color: #a78bfa; font-family: var(--font-mono);">
+                  Automotive IoT • Microcontrollers • CAN Bus • RTOS Firmware
+                </p>
+              </div>
+
+              <ul class="exp-bullets">
+                <li>
+                  <strong>MNVR Real-Time Telematics Baseboard:</strong> Developed Embedded C/C++ firmware on MC6630/MCP and STM32 microcontrollers for real-time fleet telematics and smart-city bus telemetry acquisition.
+                </li>
+                <li>
+                  <strong>Custom Bootloader & Robust OTA:</strong> Designed custom dual-stage bootloader and fail-safe OTA update mechanisms over network/UART, ensuring 100% firmware recovery during transmission dropouts.
+                </li>
+                <li>
+                  <strong>Multi-Sensor & CAN Integration:</strong> Interfaced vehicle Bus CAN, UART, GPS module, temperature sensors, GPIO, SOS emergency triggers, tamper detection, and ignition inputs for real-time edge processing.
+                </li>
+                <li>
+                  <strong>IoT Cloud Connectivity:</strong> Built lightweight socket communication and MQTT/TCP-IP telemetry streaming pipelines to send real-time vehicle telemetry to municipal cloud servers.
+                </li>
+                <li>
+                  <strong>Smart LED Display System (Nashik Smart City):</strong> Engineered embedded C/C++ firmware on D15 Control Card under RTOS, utilizing tasks, semaphores, and message queues to process dynamic ETA and route displays.
+                </li>
+                <li>
+                  <strong>ESP32 Edge Gateway:</strong> Developed ESP32 firmware for P10 LED destination boards supporting RS-485 serial bus, non-volatile Flash storage, and Python validation scripts.
+                </li>
+              </ul>
+
+              <div class="tag-cloud">
+                <span class="pill-tag">Embedded C</span>
+                <span class="pill-tag">FreeRTOS</span>
+                <span class="pill-tag">CAN Bus</span>
+                <span class="pill-tag">STM32</span>
+                <span class="pill-tag">ESP32</span>
+                <span class="pill-tag">MQTT</span>
+                <span class="pill-tag">RS-485</span>
+                <span class="pill-tag">Custom Bootloader</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         FEATURED PRODUCTION PROJECTS (INTERACTIVE FILTER)
+         ======================================================================== -->
+    <section id="projects" class="section-wrap" style="background: rgba(10, 6, 24, 0.4); border-top: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">Technical Portfolio</span>
+          <h2 class="section-title">Key Production Projects</h2>
+          <p class="section-lead">Explore aerospace flight systems, autonomous AI agents, security daemons, and telematics hardware.</p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="filter-tabs">
+          <button class="filter-btn active" onclick="filterProjects('all', this)">All Projects</button>
+          <button class="filter-btn" onclick="filterProjects('avionics', this)">Aerospace & Avionics</button>
+          <button class="filter-btn" onclick="filterProjects('ai', this)">Autonomous AI</button>
+          <button class="filter-btn" onclick="filterProjects('security', this)">PKI & Docker Security</button>
+          <button class="filter-btn" onclick="filterProjects('automotive', this)">Automotive Telematics</button>
+        </div>
+
+        <div class="projects-grid">
+          
+          <!-- Project 1 -->
+          <div class="project-card" data-cat="avionics">
+            <div>
+              <div class="project-meta">
+                <span class="project-category">Aerospace Avionics</span>
+                <span class="pill-tag pill-tag-highlight">Teledyne Controls</span>
+              </div>
+              <h3 class="project-title">ECP Configuration Manager (config_mgr)</h3>
+              <p class="project-desc">
+                Safety-critical C++ daemon governing active (/work) and standby (/stby) partitions on onboard avionics flash storage, preventing corruption during flight power cuts.
+              </p>
+              <div class="project-highlight-box">
+                <strong>Key Innovation:</strong> Dual-bank MD5 digest verification + RabbitMQ AMQP routing to ADIF (ARINC 429/717) and NIC VLANs.
+              </div>
+            </div>
+            <div class="tag-cloud">
+              <span class="pill-tag">C++14/17</span>
+              <span class="pill-tag">Dual-Bank Flash</span>
+              <span class="pill-tag">RabbitMQ</span>
+              <span class="pill-tag">ARINC 429</span>
+            </div>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="project-card" data-cat="ai">
+            <div>
+              <div class="project-meta">
+                <span class="project-category" style="color:#a78bfa;">Autonomous AI</span>
+                <span class="pill-tag">DO-178C Traceability</span>
+              </div>
+              <h3 class="project-title">Config Manager Multi-Agent AI Framework</h3>
+              <p class="project-desc">
+                9-phase autonomous multi-agent engineering framework automating requirements verification, DO-178C traceability matrices, code audits, and C++17/20 refactoring.
+              </p>
+              <div class="project-highlight-box">
+                <strong>Key Innovation:</strong> Eliminated blocking sleep reconnect loops and automated static code analysis for aerospace compliance.
+              </div>
+            </div>
+            <div class="tag-cloud">
+              <span class="pill-tag pill-tag-highlight">Agentic AI</span>
+              <span class="pill-tag">DO-178C</span>
+              <span class="pill-tag">Python</span>
+              <span class="pill-tag">Static Analysis</span>
+            </div>
+          </div>
+
+          <!-- Project 3 -->
+          <div class="project-card" data-cat="security">
+            <div>
+              <div class="project-meta">
+                <span class="project-category" style="color:#38bdf8;">Edge Security & Docker</span>
+                <span class="pill-tag pill-tag-cyan">Docker Containerized</span>
+              </div>
+              <h3 class="project-title">Network Authentication Function (NAF)</h3>
+              <p class="project-desc">
+                Multi-trust CA architecture enabling mutual EAP-TLS authentication for Electronic Flight Bags (EFBs) across multiple airline operators connecting to onboard edge APs.
+              </p>
+              <div class="project-highlight-box">
+                <strong>Key Innovation:</strong> OpenSSL X.509 verification, FreeRADIUS diagnostics, and Docker containerized build-to-target workflows on Yocto Linux.
+              </div>
+            </div>
+            <div class="tag-cloud">
+              <span class="pill-tag pill-tag-cyan">Docker (Deploy)</span>
+              <span class="pill-tag">EAP-TLS</span>
+              <span class="pill-tag">FreeRADIUS</span>
+              <span class="pill-tag">OpenSSL</span>
+            </div>
+          </div>
+
+          <!-- Project 4 -->
+          <div class="project-card" data-cat="automotive">
+            <div>
+              <div class="project-meta">
+                <span class="project-category">Automotive IoT</span>
+                <span class="pill-tag">STM32 / CAN</span>
+              </div>
+              <h3 class="project-title">MNVR Fleet Telematics Baseboard</h3>
+              <p class="project-desc">
+                Firmware on MC6630 and STM32 microcontrollers interfacing vehicle Bus CAN, GPS, temperature sensors, and emergency triggers with real-time cloud MQTT streaming.
+              </p>
+              <div class="project-highlight-box">
+                <strong>Key Innovation:</strong> Low-latency sensor polling and MQTT/socket telemetry pipelines for municipal bus fleets.
+              </div>
+            </div>
+            <div class="tag-cloud">
+              <span class="pill-tag">Embedded C</span>
+              <span class="pill-tag">CAN Bus</span>
+              <span class="pill-tag">STM32</span>
+              <span class="pill-tag">MQTT</span>
+            </div>
+          </div>
+
+          <!-- Project 5 -->
+          <div class="project-card" data-cat="automotive">
+            <div>
+              <div class="project-meta">
+                <span class="project-category">Firmware & Bootloader</span>
+                <span class="pill-tag">100% Fail-Safe</span>
+              </div>
+              <h3 class="project-title">Custom Dual-Stage Bootloader & OTA</h3>
+              <p class="project-desc">
+                Dual-stage bootloader mechanism over network/UART ensuring 100% firmware recovery and zero field bricking during transmission interruptions.
+              </p>
+              <div class="project-highlight-box">
+                <strong>Key Innovation:</strong> Partition checksum validation and automated fallback preventing boot-loop failures in the field.
+              </div>
+            </div>
+            <div class="tag-cloud">
+              <span class="pill-tag">Custom Bootloader</span>
+              <span class="pill-tag">Robust OTA</span>
+              <span class="pill-tag">UART</span>
+              <span class="pill-tag">Fail-Safe</span>
+            </div>
+          </div>
+
+          <!-- Project 6 -->
+          <div class="project-card" data-cat="automotive">
+            <div>
+              <div class="project-meta">
+                <span class="project-category">Smart City & RTOS</span>
+                <span class="pill-tag">FreeRTOS</span>
+              </div>
+              <h3 class="project-title">Nashik Smart City LED Display System</h3>
+              <p class="project-desc">
+                Embedded RTOS firmware running on D15 Control Card utilizing tasks, semaphores, and queues to process dynamic bus arrival times (ETA) and route displays.
+              </p>
+              <div class="project-highlight-box">
+                <strong>Key Innovation:</strong> Seamless cloud schedule synchronization via TCP/IP, UDP, and cURL with automated diagnostic logging.
+              </div>
+            </div>
+            <div class="tag-cloud">
+              <span class="pill-tag">FreeRTOS</span>
+              <span class="pill-tag">D15 Card</span>
+              <span class="pill-tag">cURL</span>
+              <span class="pill-tag">RS-485</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         TECHNICAL SKILLS ARSENAL (ATS & MANAGER OPTIMIZED)
+         ======================================================================== -->
+    <section id="skills" class="section-wrap">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">Technical Arsenal</span>
+          <h2 class="section-title">Skills & Technologies</h2>
+          <p class="section-lead">Comprehensive matrix optimized for ATS keyword parsing and technical interview scrutiny.</p>
+        </div>
+
+        <div class="skills-grid">
+          
+          <!-- Category 1 -->
+          <div class="skill-card">
+            <div class="skill-card-head">
+              <div class="skill-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              </div>
+              <h3 class="skill-card-title">Programming Languages</h3>
+            </div>
+            <div class="skill-badges">
+              <span class="badge-chip primary-accent">Embedded C</span>
+              <span class="badge-chip primary-accent">C++ (11/14/17)</span>
+              <span class="badge-chip">Python 3.x</span>
+              <span class="badge-chip">Shell Scripting (Bash)</span>
+            </div>
+          </div>
+
+          <!-- Category 2 -->
+          <div class="skill-card">
+            <div class="skill-card-head">
+              <div class="skill-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+              </div>
+              <h3 class="skill-card-title">Embedded & Operating Systems</h3>
+            </div>
+            <div class="skill-badges">
+              <span class="badge-chip primary-accent">Embedded Linux (Yocto)</span>
+              <span class="badge-chip primary-accent">RTOS (FreeRTOS)</span>
+              <span class="badge-chip">Custom Bootloader</span>
+              <span class="badge-chip">U-Boot</span>
+              <span class="badge-chip">Dual-Bank (A/B) Flash</span>
+              <span class="badge-chip">Board Bring-Up</span>
+              <span class="badge-chip">POSIX Pthreads / Mutex</span>
+              <span class="badge-chip">Device Drivers</span>
+            </div>
+          </div>
+
+          <!-- Category 3 -->
+          <div class="skill-card">
+            <div class="skill-card-head">
+              <div class="skill-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              </div>
+              <h3 class="skill-card-title">Avionics & Automotive Protocols</h3>
+            </div>
+            <div class="skill-badges">
+              <span class="badge-chip primary-accent">ARINC 429</span>
+              <span class="badge-chip primary-accent">ARINC 717</span>
+              <span class="badge-chip primary-accent">CAN / CAN-FD</span>
+              <span class="badge-chip">Electronic Flight Bag (EFB)</span>
+              <span class="badge-chip">DO-178C Traceability</span>
+              <span class="badge-chip">Telematics (MNVR)</span>
+              <span class="badge-chip">ADAS Concepts</span>
+            </div>
+          </div>
+
+          <!-- Category 4 -->
+          <div class="skill-card">
+            <div class="skill-card-head">
+              <div class="skill-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </div>
+              <h3 class="skill-card-title">Security, PKI & Cryptography</h3>
+            </div>
+            <div class="skill-badges">
+              <span class="badge-chip">PKI Architecture</span>
+              <span class="badge-chip">OpenSSL</span>
+              <span class="badge-chip">X.509 Multi-Trust Chains</span>
+              <span class="badge-chip">EAP-TLS Mutual Auth</span>
+              <span class="badge-chip">FreeRADIUS</span>
+              <span class="badge-chip">CRL Validation</span>
+              <span class="badge-chip">PKCS#12</span>
+              <span class="badge-chip">MD5 / SHA-256 Hashing</span>
+            </div>
+          </div>
+
+          <!-- Category 5: DOCKER & DEVOPS PROMINENT -->
+          <div class="skill-card" style="border-color: rgba(56, 189, 248, 0.35);">
+            <div class="skill-card-head">
+              <div class="skill-card-icon" style="background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+              </div>
+              <h3 class="skill-card-title">DevOps, Docker & Hardware</h3>
+            </div>
+            <div class="skill-badges">
+              <span class="badge-chip docker-accent">Docker (Build / Save / Deploy)</span>
+              <span class="badge-chip">CMake / Make</span>
+              <span class="badge-chip">GCC / G++</span>
+              <span class="badge-chip">GDB</span>
+              <span class="badge-chip">Valgrind</span>
+              <span class="badge-chip">Git / GitHub</span>
+              <span class="badge-chip">STM32 & ESP32</span>
+              <span class="badge-chip">ST-Link & Logic Analyzers</span>
+            </div>
+          </div>
+
+          <!-- Category 6 -->
+          <div class="skill-card">
+            <div class="skill-card-head">
+              <div class="skill-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              </div>
+              <h3 class="skill-card-title">Protocols & Networking</h3>
+            </div>
+            <div class="skill-badges">
+              <span class="badge-chip primary-accent">AMQP (RabbitMQ)</span>
+              <span class="badge-chip">MQTT</span>
+              <span class="badge-chip">TCP/IP & UDP</span>
+              <span class="badge-chip">POSIX Sockets</span>
+              <span class="badge-chip">UART, SPI, I2C</span>
+              <span class="badge-chip">RS-485</span>
+              <span class="badge-chip">VLAN Slicing</span>
+              <span class="badge-chip">cURL</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         EDUCATION & CERTIFICATIONS
+         ======================================================================== -->
+    <section class="section-wrap" style="background: rgba(10, 6, 24, 0.4); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">Credentials</span>
+          <h2 class="section-title">Education & Certifications</h2>
+        </div>
+
+        <div class="edu-grid">
+          <div class="edu-card">
+            <div class="edu-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+            </div>
+            <div>
+              <span class="edu-year">2019 – 2023</span>
+              <h3 class="edu-degree">B.E. in Computer Science & Engineering</h3>
+              <p class="edu-inst">Visvesvaraya Technological University (VTU)</p>
+              <p style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">KLE College of Engineering & Technology, Chikodi</p>
+            </div>
+          </div>
+
+          <div class="edu-card">
+            <div class="edu-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+            </div>
+            <div>
+              <span class="edu-year">Jun 2023 – Jul 2024</span>
+              <h3 class="edu-degree">Certified Embedded Professional (ECEP)</h3>
+              <p class="edu-inst">EMERTXE – Institutes for Advanced Embedded Systems</p>
+              <p style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Hands-on Embedded Linux, Firmware, Networking & Hardware Debugging</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         CONTACT & CALL TO ACTION
+         ======================================================================== -->
+    <section id="contact" class="section-wrap">
+      <div class="container">
+        <div class="cta-card">
+          <h2 class="cta-title">Let's Build Resilient Embedded Software</h2>
+          <p class="cta-lead">
+            Whether you have an opening for an Embedded Software Engineer in aerospace avionics, embedded Linux (Yocto), or automotive telematics, I'd love to connect.
+          </p>
+
+          <div class="cta-buttons">
+            <a href="mailto:bakaleamit28@gmail.com" class="btn btn-primary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              bakaleamit28@gmail.com
+            </a>
+            <a href="tel:+917259018078" class="btn btn-secondary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              +91 7259018078
+            </a>
+            <a href="Amit_Bakale_Resume.pdf" target="_blank" download class="btn btn-cyan">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Download Resume (PDF)
+            </a>
+          </div>
+
+          <div class="footer-bar">
+            <span>© 2026 Amit Bakale. Precision Embedded Engineering.</span>
+            <div class="footer-links">
+              <a href="https://www.linkedin.com/in/amit-bakale-5150b5213" target="_blank">LinkedIn</a>
+              <a href="https://github.com/CALL-AMMU" target="_blank">GitHub</a>
+              <a href="https://amitbakaleprotfolio.my.canva.site/" target="_blank">Canva Portfolio</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       INTERACTIVE JAVASCRIPT FOR FILTERING PROJECTS
+       ======================================================================== -->
+  <script>
+    function filterProjects(category, button) {
+      // Toggle button active state
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // Filter project cards
+      const cards = document.querySelectorAll('.project-card');
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-cat');
+        if (category === 'all' || cardCat === category) {
+          card.style.display = 'flex';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
